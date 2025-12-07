@@ -1,26 +1,42 @@
+Here is the compact README with your three images included:
+
+---
+
 # **WASD Keypad with RGB Feedback (CircuitPython)**
 
-A 4-button mechanical keypad that sends USB HID keys (`W`, `A`, `S`, `D`) and provides RGB feedback. Idle LEDs run a rainbow animation.
+A compact 4-button keypad that outputs `W`, `A`, `S`, `D` via USB HID and uses RGB LEDs for visual feedback. When idle, the LEDs run a smooth rainbow animation.
+
+---
+
+## **Images**
+
+### **Render**
+
+![Render](render.png)
+
+### **Schematic**
+
+![Schematic](schematic.png)
+
+### **PCB**
+
+![PCB](pcb.png)
 
 ---
 
 ## **Features**
 
-* USB HID keyboard output (`W`, `A`, `S`, `D`)
-* 4 buttons with RGB LEDs:
-
-  * **W** → Blue
-  * **A** → Green
-  * **S** → Magenta
-  * **D** → Red
+* USB HID output for `W`, `A`, `S`, `D`
+* Per-key LED color feedback
 * Rainbow animation when no key is pressed
+* Clean press/release handling
 
 ---
 
 ## **Hardware**
 
-* CircuitPython-compatible board
-* 4 momentary buttons (D26–D29)
+* CircuitPython board
+* 4 buttons on pins D26–D29
 * 2 NeoPixels on D2
 * USB connection
 
@@ -28,14 +44,6 @@ A 4-button mechanical keypad that sends USB HID keys (`W`, `A`, `S`, `D`) and pr
 
 ## **Setup**
 
-1. Flash CircuitPython and copy `code.py`
-2. Install `adafruit_hid` and `neopixel` libraries
-3. Wire buttons to GND with pull-ups enabled
-
----
-
-## **Customization**
-
-* Change `button_map` for key assignments
-* Modify `COLOR_W`, `COLOR_A`, etc., for LED colors
-* Adjust `NUM_LEDS` and rainbow speed
+1. Install CircuitPython on the board
+2. Copy `code.py`, `adafruit_hid`, and `neopixel` libs
+3. Connect buttons to GND (pull-ups enabled)
