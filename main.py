@@ -5,6 +5,7 @@ import usb_hid
 import neopixel
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
+import colorsys  # for HSV to RGB
 
 # ------------------
 # Setup
@@ -28,15 +29,13 @@ for pin, key in button_map:
 # ------------------
 # Rainbow Function
 # ------------------
-def rainbow_cycle(step):
-    # step = 0–255
-    r = (step & 255)
-    g = (step * 2 & 255)
-    b = (step * 3 & 255)
-    pixels.fill((r, g, b))  # BOTH LEDs same color
+def rainbow_cycle_hsv(step):
+    # step: 0–255
+    hue = step / 255.0
+    r, g, b = colorsys.hsv_to_rgb(hue, 1.0, 1.0)  # full saturation & brightness
+    pixels.fill((int(r*255), int(g*255), int(b*255)))
 
 rainbow_step = 0
-rainbow_active = True
 
 # ------------------
 # Main Loop
@@ -45,13 +44,13 @@ while True:
     any_pressed = False
 
     for b in buttons:
-        if not b["obj"].value:   # pressed
+        if not b["obj"].value:  # key pressed
             any_pressed = True
             if not b["pressed"]:
                 kbd.press(b["key"])
                 b["pressed"] = True
 
-            # Same color for both LEDs
+            # LED color based on key
             if b["key"] == Keycode.W:
                 pixels.fill((0, 0, 255))
             elif b["key"] == Keycode.A:
@@ -59,19 +58,17 @@ while True:
             elif b["key"] == Keycode.S:
                 pixels.fill((0, 255, 0))
             elif b["key"] == Keycode.D:
-                pixels.fill((255, 255, 0))
+                pixels.fill((0, 255, 255))
 
-        else:  # released
+        else:  # key released
             if b["pressed"]:
                 kbd.release(b["key"])
             b["pressed"] = False
 
-    # If no keys pressed → resume rainbow
+    # Rainbow if no keys pressed
     if not any_pressed:
-        rainbow_active = True
-        rainbow_cycle(rainbow_step)
+        rainbow_cycle_hsv(rainbow_step)
         rainbow_step = (rainbow_step + 1) % 256
         time.sleep(0.02)
     else:
-        rainbow_active = False
         time.sleep(0.01)
